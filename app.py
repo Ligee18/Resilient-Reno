@@ -188,7 +188,7 @@ st.markdown("""
 st.markdown("""
     <div class="about-me-box">
         👋 <strong>About Me:</strong><br>
-        Hi! My name is <strong>Elijah Lloyd</strong>. I'm a Grade 12 student with a passion for software development, data analytics, and engineering problem-solving. I built <strong>ResilientReno</strong> as an independent engineering portfolio project for my University of Waterloo Management Engineering application. My goal was to explore how decision-support software can take big, complicated datasets and turn them into simple, helpful tools for everyday people.
+        Hi! My name is <strong>Elijah Lloyd</strong>. I'm a Grade 12 student passionate about software engineering, data analytics, and solving complex real-world problems. I built <strong>ResilientReno</strong> out of curiosity to explore how data-driven decision tools can take complex environmental risk data and turn it into clear, practical solutions for real people.
     </div>
 """, unsafe_allow_html=True)
 
@@ -196,7 +196,7 @@ st.markdown("""
 st.markdown("""
     <div class="info-banner">
         <strong>💡 What is ResilientReno & Why Does It Matter?</strong><br>
-        Extreme weather like severe basement flooding, high windstorms, and wildfire smoke is hitting Canadian homes more often, causing thousands of dollars in unexpected damage. Most home improvement advice online is way too broad. <strong>ResilientReno</strong> takes local weather hazard data across Canadian towns and turns it into a targeted, practical home protection plan so you can spend your budget on repairs that actually matter for your area.
+        Extreme weather like severe basement flooding, high windstorms, and wildfire smoke is hitting Canadian homes more often, causing thousands of dollars in unexpected damage. Most home improvement advice online is way too broad. <strong>ResilientReno</strong> takes local weather hazard data across Canadian towns and turns it into a targeted, practical home protection plan so homeowners can spend their budget on repairs that actually matter for their area.
     </div>
 """, unsafe_allow_html=True)
 
@@ -345,21 +345,21 @@ with output_container:
 
 st.divider()
 
-# 10. Waterloo Management Engineering Specific Context
-with st.expander("📌 Project Context & Waterloo Management Engineering Connection (AIF)"):
+# 10. Management Engineering Systems Context
+with st.expander("📌 Technical Design & Management Engineering Principles"):
     st.markdown("""
-    **Why I Built This Project:**
-    I built ResilientReno to bridge the gap between complex climate risk data and everyday decision-making for Canadian homeowners. After seeing family and neighbors deal with costly basement flood damage, I realized that people rarely do preventive retrofits because they don't know which fixes matter most for their exact neighborhood.
+    **The Inspiration:**
+    I built ResilientReno to solve a common decision-making problem facing Canadian homeowners: understanding and acting on climate risk data. Seeing communities struggle with unpredictable weather damage made me curious about how engineering techniques could turn raw hazard statistics into actionable, location-specific advice.
 
-    **Direct Connection to Waterloo Management Engineering:**
-    Management Engineering at Waterloo focuses on using data analytics, software, and operations research to design efficient systems and optimize decision-making. ResilientReno reflects these core Management Engineering principles:
+    **Core Systems Engineering Design:**
+    This project applies key principles of Management Engineering to organize data and streamline human choices:
 
-    * **Decision-Support Systems:** Instead of making users read lengthy climate reports, this tool filters and structures data so users can make an immediate, informed choice on where to spend money.
-    * **Resource Allocation & Priority Optimization:** Homeowners have limited home improvement budgets. The matching logic ranks retrofits based on local hazard exposure so resources go to the highest risk-reduction projects first.
-    * **Systemic Risk Reduction:** By encouraging preventive retrofits at the household level, this project addresses broader systemic losses for municipal infrastructure and home insurance providers.
+    * **Decision-Support Systems:** Instead of requiring homeowners to analyze dense environmental reports, this engine uses dynamic filtering to generate immediate, structured recommendations tailored to exact location inputs.
+    * **Resource Allocation Logic:** Budgeting for home renovations requires smart trade-offs. The system evaluates localized risk vectors to prioritize retrofits that deliver the highest risk-mitigation value first.
+    * **Process Optimization:** By automating hazard mapping and task prioritization, the system reduces complexity and guides proactive decision-making before damage occurs.
 
-    **Future Engineering Iterations:**
-    I want to expand this tool by connecting it to GIS mapping tools (like OpenStreetMap APIs) to evaluate micro-level property features, such as roof elevation, slope gradients, and proximity to forest boundaries.
+    **Future Technical Enhancements:**
+    I plan to refine the underlying data model by integrating GIS mapping tools (such as OpenStreetMap APIs) to factor in micro-location variables like soil elevation, flood plains, and canopy coverage.
     """)
 
-st.markdown('<div class="footer-text">ResilientReno | Built by Elijah Lloyd for Waterloo Management Engineering Context</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer-text">ResilientReno | Built by Elijah Lloyd</div>', unsafe_allow_html=True)
