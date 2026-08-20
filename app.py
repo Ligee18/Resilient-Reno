@@ -106,6 +106,25 @@ st.markdown("""
         color: #6ee7b7;
         border: 1px solid #10b981;
     }
+
+    /* Expander & Footer Text Contrast Fixes */
+    .stExpander {
+        background-color: #0f172a !important;
+        border: 1px solid #334155 !important;
+        border-radius: 10px !important;
+    }
+    .stExpander p, .stExpander span, .stExpander li, .stExpander div {
+        color: #f8fafc !important;
+    }
+    .stExpander strong {
+        color: #38bdf8 !important;
+    }
+    .footer-text {
+        color: #cbd5e1 !important;
+        font-size: 0.85rem;
+        text-align: center;
+        margin-top: 15px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -181,7 +200,7 @@ def get_badge_html(label, level):
     css_class = f"badge-{level.lower()}"
     return f"""
     <div style="text-align: center;">
-        <span style="color: #94a3b8; font-size: 0.85rem;">{label}</span><br>
+        <span style="color: #cbd5e1; font-size: 0.85rem;">{label}</span><br>
         <span class="badge {css_class}">{level} Risk</span>
     </div>
     """
@@ -246,4 +265,4 @@ with st.expander("📌 Project Context & Waterloo Management Engineering Connect
     I want to expand this tool by connecting it to GIS mapping tools (like OpenStreetMap APIs) to evaluate micro-level property features, such as roof elevation, slope gradients, and proximity to forest boundaries.
     """)
 
-st.caption("ResilientReno | Built by Elijah Lloyd for Waterloo Management Engineering Context")
+st.markdown('<div class="footer-text">ResilientReno | Built by Elijah Lloyd for Waterloo Management Engineering Context</div>', unsafe_allow_html=True)
