@@ -10,14 +10,19 @@ st.set_page_config(
 # 2. Custom CSS & Visual Enhancement
 st.markdown("""
     <style>
-    /* Sleek Dark Theme Polish */
+    /* Full Dark Background Contrast Fix */
+    .stAppViewContainer, .stApp {
+        background-color: #090d16 !important;
+    }
+    
+    /* Header Container */
     .main-header {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         padding: 28px;
         border-radius: 14px;
         color: #ffffff;
         margin-bottom: 20px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         border: 1px solid #334155;
     }
     .main-header h1 {
@@ -60,20 +65,46 @@ st.markdown("""
         line-height: 1.5;
     }
 
-    /* Clean Modern Retrofit Cards */
+    /* Clean Modern Retrofit Cards with Extra Spacing */
     .rec-card {
         background-color: #0f172a;
         border: 1px solid #334155;
         border-left: 5px solid #38bdf8;
-        padding: 16px 20px;
+        padding: 18px 22px;
         border-radius: 10px;
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         font-size: 0.98rem;
         color: #f8fafc;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
     .rec-card strong {
         color: #38bdf8;
+    }
+
+    /* Risk Badges */
+    .badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 4px;
+    }
+    .badge-high {
+        background-color: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+        border: 1px solid #ef4444;
+    }
+    .badge-medium {
+        background-color: rgba(245, 158, 11, 0.2);
+        color: #fde047;
+        border: 1px solid #f59e0b;
+    }
+    .badge-low {
+        background-color: rgba(16, 185, 129, 0.2);
+        color: #6ee7b7;
+        border: 1px solid #10b981;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -94,7 +125,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Top Intro Section: What this is & Why it matters
+# 5. Top Intro Section
 st.markdown("""
     <div class="info-banner">
         <strong>💡 What is ResilientReno & Why Does It Matter?</strong><br>
@@ -102,7 +133,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 6. Canadian Regional Hazard Database (City + FSA)
+# 6. Canadian Regional Hazard Database
 LOCATION_RISK_DB = {
     "Burlington / Halton Region (L7R)": {"flood": "High", "wildfire": "Low", "wind": "High"},
     "Waterloo / Kitchener (N2L)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
@@ -145,6 +176,16 @@ RETROFIT_DB = {
     ]
 }
 
+# Helper function to generate risk badge HTML
+def get_badge_html(label, level):
+    css_class = f"badge-{level.lower()}"
+    return f"""
+    <div style="text-align: center;">
+        <span style="color: #94a3b8; font-size: 0.85rem;">{label}</span><br>
+        <span class="badge {css_class}">{level} Risk</span>
+    </div>
+    """
+
 # 8. Interactive Dropdown Selection
 st.subheader("📍 Step 1: Select Your Location")
 selected_location = st.selectbox(
@@ -153,7 +194,7 @@ selected_location = st.selectbox(
     key="location_selector"
 )
 
-# 9. Dynamic Output Container (Resets completely on selection change)
+# 9. Dynamic Output Container
 output_container = st.container()
 
 with output_container:
@@ -164,9 +205,12 @@ with output_container:
         st.subheader("📊 Step 2: Local Weather Risk Levels")
         
         col1, col2, col3 = st.columns(3)
-        col1.metric("Flood Risk", data["flood"])
-        col2.metric("Wildfire Risk", data["wildfire"])
-        col3.metric("Wind / Storm Risk", data["wind"])
+        with col1:
+            st.markdown(get_badge_html("Flood Exposure", data["flood"]), unsafe_allow_html=True)
+        with col2:
+            st.markdown(get_badge_html("Wildfire Exposure", data["wildfire"]), unsafe_allow_html=True)
+        with col3:
+            st.markdown(get_badge_html("Wind / Storm Exposure", data["wind"]), unsafe_allow_html=True)
         
         st.divider()
         st.subheader("🛠️ Step 3: Most Important Upgrades for Your House")
