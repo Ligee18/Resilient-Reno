@@ -21,31 +21,37 @@ st.markdown("""
         color: #f8fafc !important;
     }
 
-    /* FIX: Force Dropdown Input Box Text Dark */
+    /* FIX 1: Selected Text in Main Input Box */
     div[data-baseweb="select"] * {
         color: #0f172a !important;
     }
 
-    /* FIX: Dropdown Popover List Styling (Dark Background + Bright White Text) */
-    ul[data-baseweb="menu"], 
-    div[data-baseweb="popover"] ul,
-    div[data-baseweb="popover"] div {
-        background-color: #0f172a !important;
+    /* FIX 2: Popover Dropdown Container Background */
+    [data-baseweb="popover"],
+    [data-baseweb="popover"] > div,
+    div[role="listbox"] {
+        background-color: #ffffff !important;
     }
 
-    li[data-baseweb="option"], 
-    div[data-baseweb="popover"] li,
-    div[data-baseweb="popover"] span {
-        background-color: #0f172a !important;
-        color: #ffffff !important;
+    /* FIX 3: Force Dropdown Menu Text Dark Slate Blue */
+    div[role="listbox"] li,
+    div[role="listbox"] li *,
+    div[role="listbox"] span,
+    div[role="listbox"] div,
+    ul[data-baseweb="menu"] li,
+    ul[data-baseweb="menu"] li * {
+        color: #0f172a !important;
+        background-color: transparent !important;
         font-weight: 600 !important;
     }
 
-    /* Hover state for dropdown options */
-    li[data-baseweb="option"]:hover,
-    li[aria-selected="true"] {
-        background-color: #1e293b !important;
-        color: #38bdf8 !important;
+    /* FIX 4: Hover & Active Selection Highlight */
+    div[role="listbox"] li:hover,
+    div[role="listbox"] li:hover *,
+    div[role="listbox"] li[aria-selected="true"],
+    div[role="listbox"] li[aria-selected="true"] * {
+        background-color: #e2e8f0 !important;
+        color: #0284c7 !important;
     }
     
     /* Header Container */
