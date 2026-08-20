@@ -7,99 +7,101 @@ st.set_page_config(
     layout="centered"
 )
 
-# 2. Header & Slogan Setup
+# 2. Header & Slogan
 st.title("🛡️ ResilientReno")
 st.caption("*\"An ounce of prevention is worth a pound of cure.\"*")
 st.markdown(
-    "A data-driven decision-support tool that maps regional natural hazard risks "
-    "to prioritized, high-impact home retrofits based on postal code inputs."
+    "Select your region to analyze localized natural hazard exposure "
+    "and generate prioritized, climate-resilient home retrofits."
 )
 
 st.divider()
 
-# 3. Hazard Database (Forward Sortation Areas)
+# 3. Expanded Regional Hazard Database (City + FSA)
 LOCATION_RISK_DB = {
-    "L7R": {"city": "Burlington / Halton Region", "flood": "High", "wildfire": "Low", "wind": "High"},
-    "N2L": {"city": "Waterloo / Kitchener Region", "flood": "High", "wildfire": "Low", "wind": "Medium"},
-    "M5V": {"city": "Downtown Toronto", "flood": "Medium", "wildfire": "Low", "wind": "High"},
-    "K1P": {"city": "Ottawa Region", "flood": "High", "wildfire": "Medium", "wind": "Medium"},
-    "T2P": {"city": "Calgary Region", "flood": "Medium", "wildfire": "High", "wind": "Medium"},
-    "V6B": {"city": "Vancouver Region", "flood": "High", "wildfire": "Low", "wind": "High"}
+    "Burlington / Halton Region (L7R)": {"flood": "High", "wildfire": "Low", "wind": "High"},
+    "Waterloo / Kitchener (N2L)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
+    "Toronto - Downtown Core (M5V)": {"flood": "Medium", "wildfire": "Low", "wind": "High"},
+    "Toronto - North York (M2N)": {"flood": "Medium", "wildfire": "Low", "wind": "Medium"},
+    "Mississauga / Peel Region (L5B)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
+    "Hamilton / Mountain Area (L8P)": {"flood": "High", "wildfire": "Low", "wind": "High"},
+    "Ottawa / Capital Region (K1P)": {"flood": "High", "wildfire": "Medium", "wind": "Medium"},
+    "London / Middlesex (N6A)": {"flood": "Medium", "wildfire": "Low", "wind": "High"},
+    "Windsor / Essex (N9A)": {"flood": "High", "wildfire": "Low", "wind": "High"},
+    "Barrie / Simcoe County (L4M)": {"flood": "Medium", "wildfire": "Medium", "wind": "High"},
+    "Calgary - Central (T2P)": {"flood": "Medium", "wildfire": "High", "wind": "Medium"},
+    "Edmonton - Downtown (T5J)": {"flood": "Medium", "wildfire": "High", "wind": "Medium"},
+    "Vancouver - Downtown (V6B)": {"flood": "High", "wildfire": "Low", "wind": "High"},
+    "Surrey / Fraser Valley (V3T)": {"flood": "High", "wildfire": "Medium", "wind": "Medium"},
+    "Kelowna / Okanagan (V1Y)": {"flood": "Low", "wildfire": "High", "wind": "Medium"},
+    "Victoria / Vancouver Island (V8W)": {"flood": "High", "wildfire": "Medium", "wind": "High"},
+    "Halifax / Regional Municipality (B3J)": {"flood": "High", "wildfire": "Low", "wind": "High"},
+    "Winnipeg / Red River Valley (R3C)": {"flood": "High", "wildfire": "Medium", "wind": "Medium"},
+    "Montreal - Centre-Ville (H3B)": {"flood": "Medium", "wildfire": "Low", "wind": "Medium"},
+    "Quebec City / Capital Area (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
 # 4. Actionable Retrofit Recommendation Database
 RETROFIT_DB = {
     "flood": [
-        "Install a sewer backwater valve on the main outflow line to prevent basement backflow.",
-        "Equip the basement sump pump with an automatic, battery-powered backup system.",
-        "Re-grade perimeter soil to slope away from foundation walls (minimum 5% gradient)."
+        "Install a mainline sewer backwater valve to prevent storm basement backflow.",
+        "Equip basement sump pumps with automatic battery-powered auxiliary backups.",
+        "Re-grade perimeter soil to ensure minimum 5% outward slope from foundation walls."
     ],
     "wildfire": [
-        "Create a 1.5-meter non-combustible defensible perimeter (gravel/stone) around exterior walls.",
-        "Install 1/8-inch non-combustible metal mesh screens over all attic and soffit vents.",
-        "Replace ground-level wood siding with non-flammable fiber-cement or masonry panels."
+        "Establish a 1.5-meter non-combustible defensible perimeter (gravel/stone) around exterior walls.",
+        "Install 1/8-inch non-combustible metal mesh screens over attic and soffit vents.",
+        "Replace wood siding with non-flammable fiber-cement or masonry panels."
     ],
     "wind": [
-        "Retrofit roof-to-wall connections with structural metal hurricane ties/clips.",
-        "Reinforce double-car garage doors with vertical bracing shafts against wind-load pressures.",
+        "Install structural roof-to-wall hurricane clips/ties to prevent wind uplift.",
+        "Reinforce double-car garage doors with vertical bracing shafts against peak pressures.",
         "Upgrade ground-floor and basement windows to impact-resistant laminated glass."
     ]
 }
 
-# 5. User Input Interface
-st.subheader("1. Enter Location Information")
-postal_input = st.text_input(
-    "Enter Postal Code or Forward Sortation Area (e.g., L7R, N2L, M5V):"
-).strip().upper()
+# 5. Dropdown Selection Interface
+st.subheader("1. Select Your Region")
+selected_location = st.selectbox(
+    "Choose your city and Forward Sortation Area (FSA):",
+    options=["-- Select a City & Postal Code --"] + list(LOCATION_RISK_DB.keys())
+)
 
-# 6. Recommendation Logic & Output Processing
-if postal_input:
-    fsa = postal_input[:3]  # Extract first 3 characters
+# 6. Interactive Results Output
+if selected_location and selected_location != "-- Select a City & Postal Code --":
+    data = LOCATION_RISK_DB[selected_location]
     
-    if fsa in LOCATION_RISK_DB:
-        location_data = LOCATION_RISK_DB[fsa]
-        st.success(f"Location Found: **{location_data['city']} (`{fsa}`)**")
-        
-        st.subheader("2. Natural Hazard Risk Profile")
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Flood Risk", location_data["flood"])
-        col2.metric("Wildfire Risk", location_data["wildfire"])
-        col3.metric("Wind / Storm Risk", location_data["wind"])
-        
-        st.divider()
-        st.subheader("3. Top Prioritized Preventive Retrofits")
-        
-        # Collect recommendations for hazards evaluated as High or Medium
-        recommendations = []
-        for hazard in ["flood", "wildfire", "wind"]:
-            if location_data[hazard] in ["High", "Medium"]:
-                recommendations.extend(RETROFIT_DB[hazard])
-        
-        # Display top 5 actions
-        for i, rec in enumerate(recommendations[:5], 1):
-            st.markdown(f"**{i}.** {rec}")
+    st.divider()
+    st.subheader("2. Regional Hazard Risk Profile")
+    
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Flood Risk", data["flood"])
+    col2.metric("Wildfire Risk", data["wildfire"])
+    col3.metric("Wind / Storm Risk", data["wind"])
+    
+    st.divider()
+    st.subheader("3. Recommended Priority Retrofits")
+    
+    # Prioritize hazards evaluated as High or Medium
+    actions = []
+    for hazard in ["flood", "wildfire", "wind"]:
+        if data[hazard] in ["High", "Medium"]:
+            actions.extend(RETROFIT_DB[hazard])
             
-    else:
-        st.warning(
-            f"FSA `{fsa}` is not in the current regional demonstration database. "
-            "Please test using one of these postal code prefixes: **L7R, N2L, M5V, K1P, T2P, V6B**."
-        )
+    for idx, item in enumerate(actions[:5], 1):
+        st.markdown(f"**{idx}.** {item}")
 
 st.divider()
 
-# 7. Systems & Engineering Reflection (Waterloo AIF Context)
-with st.expander("📌 Engineering Systems & Methodology Note (AIF Project Context)"):
+# 7. Waterloo AIF Systems Note
+with st.expander("📌 Engineering Systems & Methodology Note (AIF Application Context)"):
     st.markdown("""
-    **Core Objective:** Mitigate systemic municipal and home insurance losses by converting macro-level climate hazard datasets into personalized preventive action plans.
+    **Core Objective:** Mitigate residential property damage losses by translating regional climate risk datasets into prioritized home improvement actions.
     
     **System Architecture:**
-    1. **Data Layer:** Regional hazard profiles compiled from municipal open data and historical weather indices.
-    2. **Logic Engine:** Rule-based decision routing prioritizing highest-risk environmental exposure.
-    3. **Presentation Layer:** Lightweight web dashboard enabling actionable homeowner decision-making.
-    
-    **Limitations & Scope for Future Engineering Iterations:**
-    * *Current Iteration:* Relies on aggregated Forward Sortation Area (FSA) regional hazard averages.
-    * *Future Scope:* Integration of high-resolution satellite imagery (Sentinel/OpenStreetMap API) to evaluate micro-level properties, such as roof material type, exact elevation gradients, and proximity to forest boundary zones.
+    1. **Data Layer:** Regional hazard profiles compiled across major Canadian municipal Forward Sortation Areas (FSAs).
+    2. **Logic Routing:** Risk-weighted matching engine identifying critical failure points (flood backflow, ember intrusion, wind uplift).
+    3. **Presentation Layer:** User-centered dashboard enabling immediate, high-impact decision-making.
     """)
 
-st.caption("ResilientReno | Built for Waterloo Management Engineering Application Portfolio")
+st.caption("ResilientReno | Built for Waterloo Management Engineering Portfolio")
