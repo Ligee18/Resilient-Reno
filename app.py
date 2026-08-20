@@ -33,6 +33,21 @@ st.markdown("""
         font-weight: 500;
     }
     
+    /* About Me Box */
+    .about-me-box {
+        background-color: #0f172a;
+        border: 1px solid #38bdf8;
+        padding: 18px 22px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        color: #f8fafc;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    .about-me-box strong {
+        color: #38bdf8;
+    }
+
     /* Intro Banner Box */
     .info-banner {
         background-color: #1e293b;
@@ -71,7 +86,15 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. New Top Intro Section: What this is & Why it matters
+# 4. About Me Section
+st.markdown("""
+    <div class="about-me-box">
+        👋 <strong>About Me:</strong><br>
+        Hi! My name is <strong>Elijah Lloyd</strong>. I'm a Grade 12 student with a passion for software development, data analytics, and engineering problem-solving. I built <strong>ResilientReno</strong> as an independent engineering portfolio project for my University of Waterloo Management Engineering application. My goal was to explore how decision-support software can take big, complicated datasets and turn them into simple, helpful tools for everyday people.
+    </div>
+""", unsafe_allow_html=True)
+
+# 5. Top Intro Section: What this is & Why it matters
 st.markdown("""
     <div class="info-banner">
         <strong>💡 What is ResilientReno & Why Does It Matter?</strong><br>
@@ -79,7 +102,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Canadian Regional Hazard Database (City + FSA)
+# 6. Canadian Regional Hazard Database (City + FSA)
 LOCATION_RISK_DB = {
     "Burlington / Halton Region (L7R)": {"flood": "High", "wildfire": "Low", "wind": "High"},
     "Waterloo / Kitchener (N2L)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
@@ -103,7 +126,7 @@ LOCATION_RISK_DB = {
     "Quebec City (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
-# 6. Everyday Language Retrofit Database
+# 7. Everyday Language Retrofit Database
 RETROFIT_DB = {
     "flood": [
         "<strong>Install a Backwater Valve:</strong> Put a one-way sewer valve on your main line so dirty storm sewer water can't back up into your basement drain during heavy rainstorms.",
@@ -122,7 +145,7 @@ RETROFIT_DB = {
     ]
 }
 
-# 7. Interactive Dropdown Selection
+# 8. Interactive Dropdown Selection
 st.subheader("📍 Step 1: Select Your Location")
 selected_location = st.selectbox(
     "Choose your city and area postal code:",
@@ -130,7 +153,7 @@ selected_location = st.selectbox(
     key="location_selector"
 )
 
-# 8. Dynamic Output Container (Resets completely on selection change)
+# 9. Dynamic Output Container (Resets completely on selection change)
 output_container = st.container()
 
 with output_container:
@@ -162,7 +185,7 @@ with output_container:
 
 st.divider()
 
-# 9. Waterloo Management Engineering Specific Context
+# 10. Waterloo Management Engineering Specific Context
 with st.expander("📌 Project Context & Waterloo Management Engineering Connection (AIF)"):
     st.markdown("""
     **Why I Built This Project:**
@@ -179,4 +202,4 @@ with st.expander("📌 Project Context & Waterloo Management Engineering Connect
     I want to expand this tool by connecting it to GIS mapping tools (like OpenStreetMap APIs) to evaluate micro-level property features, such as roof elevation, slope gradients, and proximity to forest boundaries.
     """)
 
-st.caption("ResilientReno | High School Project built for Waterloo Management Engineering Context")
+st.caption("ResilientReno | Built by Elijah Lloyd for Waterloo Management Engineering Context")
