@@ -16,7 +16,7 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* Global Typography Force White/Light Light */
+    /* Global Typography Force White/Light */
     h1, h2, h3, h4, h5, h6, p, label, span, div, li {
         color: #f8fafc !important;
     }
@@ -78,10 +78,12 @@ st.markdown("""
         border-left: 5px solid #38bdf8;
         padding: 18px 22px;
         border-radius: 10px;
-        margin-bottom: 16px;
-        font-size: 0.98rem;
+        font-size: 0.95rem;
         color: #ffffff !important;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
     .rec-card strong {
         color: #38bdf8 !important;
@@ -130,13 +132,6 @@ st.markdown("""
         font-size: 0.85rem;
         text-align: center;
         margin-top: 15px;
-    }
-    
-    /* Image Container Polish */
-    .img-box img {
-        border-radius: 10px;
-        border: 1px solid #334155;
-        margin-bottom: 12px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -189,60 +184,150 @@ LOCATION_RISK_DB = {
     "Quebec City (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
-# 7. Retrofit Database Categorized by Severity Level
+# 7. Retrofit Database Paired with Specific Correlated Images
 TIERED_RETROFIT_DB = {
     "flood": {
         "High": [
-            "<strong>Install a Backwater Valve:</strong> Put a one-way sewer valve on your main line so dirty storm sewer water can't back up into your basement drain during heavy rainstorms.",
-            "<strong>Add Sump Pump Battery Backup:</strong> Get a secondary battery pack for your sump pump so it keeps pushing water away from your foundation even if power goes out.",
-            "<strong>Fix Your Soil Grading:</strong> Make sure the dirt and gardens around your house slope downward at least 5% away from your walls so rainwater flows toward the street instead of pooling around your basement.",
-            "<strong>Waterproof External Walls:</strong> Apply a rubberized asphalt membrane to exterior foundation walls below ground level."
+            {
+                "text": "<strong>Install a Backwater Valve:</strong> Put a one-way sewer valve on your main line so dirty storm sewer water can't back up into your basement drain during heavy rainstorms.",
+                "img": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Add Sump Pump Battery Backup:</strong> Get a secondary battery pack for your sump pump so it keeps pushing water away from your foundation even if power goes out.",
+                "img": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Fix Your Soil Grading:</strong> Make sure the dirt and gardens around your house slope downward at least 5% away from your walls so rainwater flows toward the street instead of pooling around your basement.",
+                "img": "https://images.unsplash.com/photo-1592417817098-8f3d6ef23a81?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Waterproof External Walls:</strong> Apply a rubberized asphalt membrane to exterior foundation walls below ground level.",
+                "img": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Medium": [
-            "<strong>Extend Downspout Discharges:</strong> Add extension pipes so downspouts dump rainwater at least 6 feet away from your foundation wall.",
-            "<strong>Seal Foundation Wall Cracks:</strong> Fill concrete basement wall cracks using hydraulic cement or high-grade polyurethane sealant to block ground leaks.",
-            "<strong>Window Well Covers:</strong> Fit clear polycarbonate domes over basement window wells to stop water accumulation from pouring in."
+            {
+                "text": "<strong>Extend Downspout Discharges:</strong> Add extension pipes so downspouts dump rainwater at least 6 feet away from your foundation wall.",
+                "img": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Seal Foundation Wall Cracks:</strong> Fill concrete basement wall cracks using hydraulic cement or high-grade polyurethane sealant to block ground leaks.",
+                "img": "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Window Well Covers:</strong> Fit clear polycarbonate domes over basement window wells to stop water accumulation from pouring in.",
+                "img": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Low": [
-            "<strong>Elevate Basement Appliances:</strong> Mount laundry units, water heaters, and furnaces on 6-inch concrete pedestals off the floor.",
-            "<strong>Install Sump Pump Smart Alarm:</strong> Add a Wi-Fi water sensor inside your sump basin to alert your smartphone before a pump fails.",
-            "<strong>Install Permeable Driveway Pavers:</strong> Replace solid concrete walkways with porous pavers so rainwater drains naturally into ground soil."
+            {
+                "text": "<strong>Elevate Basement Appliances:</strong> Mount laundry units, water heaters, and furnaces on 6-inch concrete pedestals off the floor.",
+                "img": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Install Sump Pump Smart Alarm:</strong> Add a Wi-Fi water sensor inside your sump basin to alert your smartphone before a pump fails.",
+                "img": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Install Permeable Driveway Pavers:</strong> Replace solid concrete walkways with porous pavers so rainwater drains naturally into ground soil.",
+                "img": "https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=300&q=80"
+            }
         ]
     },
     "wildfire": {
         "High": [
-            "<strong>Build a Gravel Firebreak:</strong> Swap out wood mulch or grass within 1.5 meters of your exterior walls for gravel or river rocks so floating embers can't ignite your siding.",
-            "<strong>Put Mesh Over Vents:</strong> Cover your attic and soffit vents with 1/8-inch metal mesh screens to block blowing embers from getting into your roof structure.",
-            "<strong>Upgrade Ground Siding:</strong> Replace old wood siding near ground level with non-flammable fiber-cement boards or brick panels.",
-            "<strong>Install Class-A Rated Roofing:</strong> Choose asphalt shingles or metal roofing systems certified with the highest fire-resistance rating."
+            {
+                "text": "<strong>Build a Gravel Firebreak:</strong> Swap out wood mulch or grass within 1.5 meters of your exterior walls for gravel or river rocks so floating embers can't ignite your siding.",
+                "img": "https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Put Mesh Over Vents:</strong> Cover your attic and soffit vents with 1/8-inch metal mesh screens to block blowing embers from getting into your roof structure.",
+                "img": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Upgrade Ground Siding:</strong> Replace old wood siding near ground level with non-flammable fiber-cement boards or brick panels.",
+                "img": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Install Class-A Rated Roofing:</strong> Choose asphalt shingles or metal roofing systems certified with the highest fire-resistance rating.",
+                "img": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Medium": [
-            "<strong>Trim Tree Branches Near Roof:</strong> Prune overhead tree branches so they stay at least 10 feet away from your rooflines and chimneys.",
-            "<strong>Store Firewood Away From House:</strong> Move wood piles at least 30 feet away from exterior walls and wooden decks.",
-            "<strong>Enclose Open Deck Undersides:</strong> Wrap open space beneath elevated wooden decks using metal mesh or fire-resistant board panels."
+            {
+                "text": "<strong>Trim Tree Branches Near Roof:</strong> Prune overhead tree branches so they stay at least 10 feet away from your rooflines and chimneys.",
+                "img": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Store Firewood Away From House:</strong> Move wood piles at least 30 feet away from exterior walls and wooden decks.",
+                "img": "https://images.unsplash.com/photo-1520114878144-6123749968dd?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Enclose Open Deck Undersides:</strong> Wrap open space beneath elevated wooden decks using metal mesh or fire-resistant board panels.",
+                "img": "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Low": [
-            "<strong>Clear Gutter Debris Weekly:</strong> Remove dried pine needles and leaves from roof gutters where embers easily spark fires.",
-            "<strong>Upgrade Window Screen Material:</strong> Swap plastic window mesh for flame-resistant bronze or aluminum mesh screens.",
-            "<strong>Install External Rooftop Sprinklers:</strong> Mount roof-line water misters to soak shingles and surrounding soil during nearby wildfire warnings."
+            {
+                "text": "<strong>Clear Gutter Debris Weekly:</strong> Remove dried pine needles and leaves from roof gutters where embers easily spark fires.",
+                "img": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Upgrade Window Screen Material:</strong> Swap plastic window mesh for flame-resistant bronze or aluminum mesh screens.",
+                "img": "https://images.unsplash.com/photo-1509644851169-2acc08aa15b6?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Install External Rooftop Sprinklers:</strong> Mount roof-line water misters to soak shingles and surrounding soil during nearby wildfire warnings.",
+                "img": "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&w=300&q=80"
+            }
         ]
     },
     "wind": {
         "High": [
-            "<strong>Install Roof Hurricane Clips:</strong> Secure roof trusses directly to your wall frames using metal hurricane straps to prevent strong roof uplift in high-wind storms.",
-            "<strong>Brace Your Garage Door:</strong> Add vertical metal bracing kits to your garage door to keep strong wind pressure from popping it off the tracks.",
-            "<strong>Upgrade Windows to Impact Glass:</strong> Swap out basement and main-floor glass for laminated impact-resistant glass that won't shatter when hit by flying debris.",
-            "<strong>Reinforce Entry Door Locks:</strong> Add heavy-duty three-point deadbolt locks to keep exterior doors from blowing open in severe pressure shifts."
+            {
+                "text": "<strong>Install Roof Hurricane Clips:</strong> Secure roof trusses directly to your wall frames using metal hurricane straps to prevent strong roof uplift in high-wind storms.",
+                "img": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Brace Your Garage Door:</strong> Add vertical metal bracing kits to your garage door to keep strong wind pressure from popping it off the tracks.",
+                "img": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Upgrade Windows to Impact Glass:</strong> Swap out basement and main-floor glass for laminated impact-resistant glass that won't shatter when hit by flying debris.",
+                "img": "https://images.unsplash.com/photo-1509644851169-2acc08aa15b6?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Reinforce Entry Door Locks:</strong> Add heavy-duty three-point deadbolt locks to keep exterior doors from blowing open in severe pressure shifts.",
+                "img": "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Medium": [
-            "<strong>Anchor Outdoor Sheds & Structures:</strong> Secure yard sheds, pergolas, and heavy furniture into concrete footings with steel tie-down straps.",
-            "<strong>Install Storm Shutters:</strong> Mount exterior aluminum or steel shutters that fold closed over glass windows during storm alerts.",
-            "<strong>Reinforce Roof Sheathing Straps:</strong> Add ring-shank nails along roof plywood deck seams to double resistance against wind suction."
+            {
+                "text": "<strong>Anchor Outdoor Sheds & Structures:</strong> Secure yard sheds, pergolas, and heavy furniture into concrete footings with steel tie-down straps.",
+                "img": "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Install Storm Shutters:</strong> Mount exterior aluminum or steel shutters that fold closed over glass windows during storm alerts.",
+                "img": "https://images.unsplash.com/photo-1509644851169-2acc08aa15b6?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Reinforce Roof Sheathing Straps:</strong> Add ring-shank nails along roof plywood deck seams to double resistance against wind suction.",
+                "img": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=300&q=80"
+            }
         ],
         "Low": [
-            "<strong>Secure Loose Roof Flashing:</strong> Seal all edge flashing around chimneys, skylights, and vents with heavy-duty roof adhesive sealant.",
-            "<strong>Replace Dead Yard Trees:</strong> Remove rotting trees or compromised branches that could collapse onto your house during high-wind gusts.",
-            "<strong>Upgrade Vinyl Siding Fasteners:</strong> Fasten exterior wall siding panels with wide-head galvanized nails spaced every 12 inches."
+            {
+                "text": "<strong>Secure Loose Roof Flashing:</strong> Seal all edge flashing around chimneys, skylights, and vents with heavy-duty roof adhesive sealant.",
+                "img": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Replace Dead Yard Trees:</strong> Remove rotting trees or compromised branches that could collapse onto your house during high-wind gusts.",
+                "img": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=300&q=80"
+            },
+            {
+                "text": "<strong>Upgrade Vinyl Siding Fasteners:</strong> Fasten exterior wall siding panels with wide-head galvanized nails spaced every 12 inches.",
+                "img": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=300&q=80"
+            }
         ]
     }
 }
@@ -301,17 +386,14 @@ with output_container:
         scored_actions.sort(key=lambda x: x[0], reverse=True)
         top_5_actions = [item[1] for item in scored_actions[:5]]
         
-        # Two-column layout: Left for Retrofits, Right for Professional Imagery
-        rec_col, img_col = st.columns([2, 1])
-        
-        with rec_col:
-            for rec in top_5_actions:
-                st.markdown(f'<div class="rec-card">⚡ {rec}</div>', unsafe_allow_html=True)
-                
-        with img_col:
-            st.image("https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=500&q=80", caption="Structural Waterproofing")
-            st.image("https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=500&q=80", caption="Resilient Roofing & Siding")
-            st.image("https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=500&q=80", caption="Defensible Landscaping")
+        # Display Top 5 Recommendations with paired mini images side-by-side
+        for rec in top_5_actions:
+            text_col, img_col = st.columns([3, 1])
+            with text_col:
+                st.markdown(f'<div class="rec-card">⚡ {rec["text"]}</div>', unsafe_allow_html=True)
+            with img_col:
+                st.image(rec["img"], use_column_width=True)
+            st.markdown("<div style='margin-bottom: 12px;'></div>", unsafe_allow_html=True)
 
     else:
         st.info("👈 Select a location from the dropdown above to view risk levels and recommended home fixes.")
