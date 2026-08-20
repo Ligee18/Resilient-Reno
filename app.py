@@ -7,12 +7,18 @@ st.set_page_config(
     layout="centered"
 )
 
-# 2. Custom CSS & Visual Enhancement
+# 2. Custom CSS & High-Contrast Visual Enhancement
 st.markdown("""
     <style>
     /* Full Dark Background Contrast Fix */
     .stAppViewContainer, .stApp {
         background-color: #090d16 !important;
+        color: #ffffff !important;
+    }
+    
+    /* Global Typography Force White/Light Light */
+    h1, h2, h3, h4, h5, h6, p, label, span, div, li {
+        color: #f8fafc !important;
     }
     
     /* Header Container */
@@ -20,7 +26,7 @@ st.markdown("""
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         padding: 28px;
         border-radius: 14px;
-        color: #ffffff;
+        color: #ffffff !important;
         margin-bottom: 20px;
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
         border: 1px solid #334155;
@@ -33,7 +39,7 @@ st.markdown("""
     }
     .slogan-tag {
         font-style: italic;
-        color: #f59e0b;
+        color: #f59e0b !important;
         font-size: 1.05rem;
         font-weight: 500;
     }
@@ -45,12 +51,12 @@ st.markdown("""
         padding: 18px 22px;
         border-radius: 10px;
         margin-bottom: 20px;
-        color: #f8fafc;
+        color: #f8fafc !important;
         font-size: 0.95rem;
         line-height: 1.5;
     }
     .about-me-box strong {
-        color: #38bdf8;
+        color: #38bdf8 !important;
     }
 
     /* Intro Banner Box */
@@ -60,12 +66,12 @@ st.markdown("""
         padding: 16px 20px;
         border-radius: 10px;
         margin-bottom: 24px;
-        color: #e2e8f0;
+        color: #ffffff !important;
         font-size: 0.95rem;
         line-height: 1.5;
     }
 
-    /* Clean Modern Retrofit Cards with Extra Spacing */
+    /* Modern Retrofit Cards */
     .rec-card {
         background-color: #0f172a;
         border: 1px solid #334155;
@@ -74,11 +80,11 @@ st.markdown("""
         border-radius: 10px;
         margin-bottom: 16px;
         font-size: 0.98rem;
-        color: #f8fafc;
+        color: #ffffff !important;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
     .rec-card strong {
-        color: #38bdf8;
+        color: #38bdf8 !important;
     }
 
     /* Risk Badges */
@@ -92,18 +98,18 @@ st.markdown("""
         margin-top: 4px;
     }
     .badge-high {
-        background-color: rgba(239, 68, 68, 0.2);
-        color: #fca5a5;
+        background-color: rgba(239, 68, 68, 0.25);
+        color: #fca5a5 !important;
         border: 1px solid #ef4444;
     }
     .badge-medium {
-        background-color: rgba(245, 158, 11, 0.2);
-        color: #fde047;
+        background-color: rgba(245, 158, 11, 0.25);
+        color: #fde047 !important;
         border: 1px solid #f59e0b;
     }
     .badge-low {
-        background-color: rgba(16, 185, 129, 0.2);
-        color: #6ee7b7;
+        background-color: rgba(16, 185, 129, 0.25);
+        color: #6ee7b7 !important;
         border: 1px solid #10b981;
     }
 
@@ -114,16 +120,23 @@ st.markdown("""
         border-radius: 10px !important;
     }
     .stExpander p, .stExpander span, .stExpander li, .stExpander div {
-        color: #f8fafc !important;
+        color: #ffffff !important;
     }
     .stExpander strong {
         color: #38bdf8 !important;
     }
     .footer-text {
-        color: #cbd5e1 !important;
+        color: #ffffff !important;
         font-size: 0.85rem;
         text-align: center;
         margin-top: 15px;
+    }
+    
+    /* Image Container Polish */
+    .img-box img {
+        border-radius: 10px;
+        border: 1px solid #334155;
+        margin-bottom: 12px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -176,7 +189,7 @@ LOCATION_RISK_DB = {
     "Quebec City (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
-# 7. Retrofit Database Categorized by Severity Level (High, Medium, Low)
+# 7. Retrofit Database Categorized by Severity Level
 TIERED_RETROFIT_DB = {
     "flood": {
         "High": [
@@ -239,7 +252,7 @@ def get_badge_html(label, level):
     css_class = f"badge-{level.lower()}"
     return f"""
     <div style="text-align: center;">
-        <span style="color: #cbd5e1; font-size: 0.85rem;">{label}</span><br>
+        <span style="color: #ffffff; font-size: 0.85rem;">{label}</span><br>
         <span class="badge {css_class}">{level} Risk</span>
     </div>
     """
@@ -281,18 +294,25 @@ with output_container:
             risk_level = data[hazard]
             weight = priority_map[risk_level]
             
-            # Pull specific options for this hazard and risk level
             options = TIERED_RETROFIT_DB[hazard][risk_level]
             for item in options:
                 scored_actions.append((weight, item))
                 
-        # Sort options by severity weight (highest risk first)
         scored_actions.sort(key=lambda x: x[0], reverse=True)
-        
-        # Display strictly the Top 5 unique recommendations
         top_5_actions = [item[1] for item in scored_actions[:5]]
-        for rec in top_5_actions:
-            st.markdown(f'<div class="rec-card">⚡ {rec}</div>', unsafe_allow_html=True)
+        
+        # Two-column layout: Left for Retrofits, Right for Professional Imagery
+        rec_col, img_col = st.columns([2, 1])
+        
+        with rec_col:
+            for rec in top_5_actions:
+                st.markdown(f'<div class="rec-card">⚡ {rec}</div>', unsafe_allow_html=True)
+                
+        with img_col:
+            st.image("https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=500&q=80", caption="Structural Waterproofing")
+            st.image("https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=500&q=80", caption="Resilient Roofing & Siding")
+            st.image("https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=500&q=80", caption="Defensible Landscaping")
+
     else:
         st.info("👈 Select a location from the dropdown above to view risk levels and recommended home fixes.")
 
