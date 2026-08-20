@@ -7,17 +7,59 @@ st.set_page_config(
     layout="centered"
 )
 
-# 2. Header & Slogan Setup
-st.title("🛡️ ResilientReno")
-st.caption("*\"An ounce of prevention is worth a pound of cure.\"*")
-st.markdown(
-    "A decision-support tool built to map regional natural hazard risks "
-    "to prioritized home retrofits based on Canadian locations."
-)
+# 2. Custom Styling & Visual "Aura"
+st.markdown("""
+    <style>
+    /* Gradient Header Background */
+    .main-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        padding: 24px;
+        border-radius: 12px;
+        color: #ffffff;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .main-header h1 {
+        color: #38bdf8 !important;
+        margin-bottom: 4px;
+    }
+    .slogan-tag {
+        font-style: italic;
+        color: #94a3b8;
+        font-size: 1rem;
+    }
+    
+    /* Clean Recommendation Cards */
+    .rec-card {
+        background-color: #1e293b;
+        border-left: 5px solid #38bdf8;
+        padding: 14px 18px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 0.98rem;
+        color: #f8fafc;
+    }
+    
+    /* Risk Badge Highlights */
+    .risk-high { color: #ef4444; font-weight: bold; }
+    .risk-med { color: #f59e0b; font-weight: bold; }
+    .risk-low { color: #10b981; font-weight: bold; }
+    </style>
+""", unsafe_allow_html=True)
 
-st.divider()
+# 3. Header & Slogan Setup
+st.markdown("""
+    <div class="main-header">
+        <h1>🛡️ ResilientReno</h1>
+        <div class="slogan-tag">"An ounce of prevention is worth a pound of cure."</div>
+        <p style="margin-top: 10px; color: #cbd5e1;">
+            A decision-support tool built to map regional natural hazard risks 
+            to prioritized home retrofits across Canadian communities.
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
-# 3. Canadian Regional Hazard Database (City + FSA)
+# 4. Regional Hazard Database (City + FSA)
 LOCATION_RISK_DB = {
     "Burlington / Halton Region (L7R)": {"flood": "High", "wildfire": "Low", "wind": "High"},
     "Waterloo / Kitchener (N2L)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
@@ -41,7 +83,7 @@ LOCATION_RISK_DB = {
     "Quebec City (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
-# 4. Actionable Retrofit Recommendation Database
+# 5. Retrofit Recommendations Database
 RETROFIT_DB = {
     "flood": [
         "Install a mainline sewer backwater valve to stop basement flooding during heavy rain.",
@@ -60,50 +102,59 @@ RETROFIT_DB = {
     ]
 }
 
-# 5. Interactive User Input (Dropdown)
-st.subheader("1. Pick Your Area")
+# 6. Interactive Dropdown Selection
+st.subheader("📍 Step 1: Select Location")
 selected_location = st.selectbox(
-    "Choose your city and postal code (FSA):",
-    options=["-- Select City & Postal Code --"] + list(LOCATION_RISK_DB.keys())
+    "Choose your city and Forward Sortation Area (FSA):",
+    options=["-- Select City & Postal Code --"] + list(LOCATION_RISK_DB.keys()),
+    key="location_selector"
 )
 
-# 6. Recommendation Logic & Output Display
-if selected_location and selected_location != "-- Select City & Postal Code --":
-    data = LOCATION_RISK_DB[selected_location]
-    
-    st.divider()
-    st.subheader("2. Local Natural Hazard Profile")
-    
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Flood Risk", data["flood"])
-    col2.metric("Wildfire Risk", data["wildfire"])
-    col3.metric("Wind / Storm Risk", data["wind"])
-    
-    st.divider()
-    st.subheader("3. Top 5 Recommended Home Improvements")
-    
-    # Priority logic: Filter risks flagged as High or Medium
-    actions = []
-    for hazard in ["flood", "wildfire", "wind"]:
-        if data[hazard] in ["High", "Medium"]:
-            actions.extend(RETROFIT_DB[hazard])
-            
-    # Output top 5 actions
-    for i, rec in enumerate(actions[:5], 1):
-        st.markdown(f"**{i}.** {rec}")
+# 7. Dynamic Output Container (Resets completely on every dropdown change)
+output_container = st.container()
+
+with output_container:
+    if selected_location and selected_location != "-- Select City & Postal Code --":
+        data = LOCATION_RISK_DB[selected_location]
+        
+        st.divider()
+        st.subheader("📊 Step 2: Regional Risk Analysis")
+        
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Flood Risk", data["flood"])
+        col2.metric("Wildfire Risk", data["wildfire"])
+        col3.metric("Wind / Storm Risk", data["wind"])
+        
+        st.divider()
+        st.subheader("🛠️ Step 3: Top Priority Retrofits for Your Area")
+        
+        # Priority Logic: Filter risks flagged as High or Medium
+        actions = []
+        for hazard in ["flood", "wildfire", "wind"]:
+            if data[hazard] in ["High", "Medium"]:
+                actions.extend(RETROFIT_DB[hazard])
+                
+        # Output clean card layout without messy numbers
+        for rec in actions[:5]:
+            st.markdown(f'<div class="rec-card">⚡ {rec}</div>', unsafe_allow_html=True)
+    else:
+        st.info("👈 Select a location from the dropdown above to run the resilience assessment.")
 
 st.divider()
 
-# 7. Waterloo AIF Systems & Engineering Context
-with st.expander("📌 Project Context & Management Engineering Connection (AIF)"):
+# 8. Waterloo Management Engineering AIF Context
+with st.expander("📌 Project Context & Waterloo Management Engineering Connection (AIF)"):
     st.markdown("""
-    **Why I Built This:**
-    I created ResilientReno to show how data-driven decision tools can help homeowners prevent major property damage before bad weather strikes. Instead of sorting through general advice, users get clear, location-specific actions based on local hazard risk levels.
+    **Why I Built This (High School Project Background):**
+    I created ResilientReno as a side project to explore how software and data tools can solve practical everyday problems like climate-driven home damage. Most online advice for home improvement is way too broad. I wanted to build something interactive that takes complex regional hazard data and turns it into immediate, actionable steps for homeowners.
 
-    **How It Relates to Management Engineering at Waterloo:**
-    * **Decision-Support Systems:** Translates regional risk data into a clean interface so users can make quick decisions without getting overwhelmed by raw data.
-    * **Process Optimization:** Ranks retrofits by local risk priority so homeowners focus time and money on high-impact projects first.
-    * **Future Upgrades:** In the future, I plan to use APIs like OpenStreetMap to pull property-level data (like roof type and elevation) for micro-targeted suggestions.
+    **Connection to Waterloo Management Engineering Curriculum:**
+    * **Decision-Support Systems (`MSE 436`):** This app acts as a lightweight decision engine, taking location inputs and outputting a custom risk mitigation plan so users can make decisions without getting bogged down by raw numbers.
+    * **Process Optimization (`MSE 100` / `MSE 131`):** Homeowners usually have limited budgets. By ranking retrofits according to local risk levels, the app helps prioritize projects with the highest risk reduction value first.
+    * **Software & Data Engineering (`MSE 121`):** Built entirely in Python using Streamlit, this project taught me how to structure conditional logic and build clean web interfaces.
+
+    **Future Upgrades I Plan to Build:**
+    Next, I want to connect this to real-time weather APIs and GIS mapping tools (like OpenStreetMap) to pull property-specific features like roof slope and vegetation proximity for micro-targeted suggestions.
     """)
 
-st.caption("ResilientReno | Built as a side project for Waterloo Management Engineering context")
+st.caption("ResilientReno | High School Side Project built for Waterloo Management Engineering AIF Context")
