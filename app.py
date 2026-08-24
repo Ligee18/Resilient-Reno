@@ -1,17 +1,15 @@
 import streamlit as st
 
-# 1. Page Configuration
+# Setup page
 st.set_page_config(
     page_title="ResilientReno",
     page_icon="🛡️",
     layout="wide"
 )
 
-# 2. App Title & Intro
 st.title("🛡️ ResilientReno")
 st.caption("An ounce of prevention is worth a pound of cure.")
 
-# Collapsible About Section
 with st.expander("👋 About Me"):
     st.write("""
     Hi! I'm **Elijah Lloyd**, a Grade 12 student interested in software engineering and climate tech. 
@@ -19,17 +17,16 @@ with st.expander("👋 About Me"):
     their homes from extreme weather using local risk data.
     """)
 
-# Purpose Box
 with st.container():
     st.info("""
     **What is ResilientReno?**  
-    Floods, wildfires, and windstorms are causing more home damage every year across Canada. 
-    Most home upgrade advice online is generic. This tool looks at local climate hazards in your area 
-    and gives you a prioritized checklist of fixes that actually make sense for your house.
+    Floods, wildfires, and windstorms cause thousands in damages every year across Canadian towns. 
+    Most home improvement tips online are pretty broad. This tool checks climate hazards for your area 
+    and gives you a simple list of fixes to prioritize for your home.
     """)
 
-# 3. Database Configurations
-LOCATION_RISK_DB = {
+# Risk database for supported cities
+locations = {
     "Burlington / Halton Region (L7R)": {"flood": "High", "wildfire": "Low", "wind": "High"},
     "Waterloo / Kitchener (N2L)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
     "Toronto - Downtown Core (M5V)": {"flood": "Medium", "wildfire": "Low", "wind": "High"},
@@ -52,7 +49,8 @@ LOCATION_RISK_DB = {
     "Quebec City (G1R)": {"flood": "High", "wildfire": "Low", "wind": "Medium"},
 }
 
-TIERED_RETROFIT_DB = {
+# Recommendations grouped by hazard and risk tier
+retrofit_ideas = {
     "flood": {
         "High": [
             "Install a Backwater Valve: Put a one-way sewer valve on your main line to block dirty storm sewer water from backing up into your basement.",
@@ -109,17 +107,15 @@ TIERED_RETROFIT_DB = {
     }
 }
 
-# 4. Step 1: Selection
 st.subheader("Step 1: Choose Location")
 selected_location = st.selectbox(
     "Select your area:",
-    options=["-- Select City & Postal Code --"] + list(LOCATION_RISK_DB.keys()),
+    options=["-- Select City & Postal Code --"] + list(locations.keys()),
     label_visibility="collapsed"
 )
 
-# 5. Step 2 & 3 Output
 if selected_location and selected_location != "-- Select City & Postal Code --":
-    data = LOCATION_RISK_DB[selected_location]
+    data = locations[selected_location]
     
     st.divider()
     st.subheader("Step 2: Risk Profile")
@@ -133,21 +129,19 @@ if selected_location and selected_location != "-- Select City & Postal Code --":
     st.subheader("Step 3: Action Plan")
     st.caption("Recommended home fixes ranked by your local hazard levels.")
     
-    # Priority sorting logic
-    priority_map = {"High": 3, "Medium": 2, "Low": 1}
+    risk_scores = {"High": 3, "Medium": 2, "Low": 1}
     scored_actions = []
     
     for hazard in ["flood", "wildfire", "wind"]:
         risk_level = data[hazard]
-        weight = priority_map[risk_level]
-        for item in TIERED_RETROFIT_DB[hazard][risk_level]:
-            scored_actions.append((weight, hazard, item))
+        score = risk_scores[risk_level]
+        for item in retrofit_ideas[hazard][risk_level]:
+            scored_actions.append((score, hazard, item))
             
     scored_actions.sort(key=lambda x: x[0], reverse=True)
     top_5_actions = scored_actions[:5]
     
-    # Render Action Cards using native Streamlit containers
-    for weight, hazard_type, text in top_5_actions:
+    for score, hazard_type, text in top_5_actions:
         with st.container(border=True):
             if ":" in text:
                 title, desc = text.split(":", 1)
@@ -159,9 +153,9 @@ if selected_location and selected_location != "-- Select City & Postal Code --":
                 st.markdown(f"**⚡ {title.strip()}**")
                 st.write(desc.strip())
             with c2:
-                if weight == 3:
+                if score == 3:
                     st.error("HIGH PRIORITY")
-                elif weight == 2:
+                elif score == 2:
                     st.warning("MEDIUM")
                 else:
                     st.success("LOW")
@@ -171,29 +165,27 @@ else:
 
 st.divider()
 
-# 6. Technical Explanation
 st.subheader("How It Works")
 
 e1, e2, e3 = st.columns(3)
 with e1:
     with st.container(border=True):
-        st.markdown("**1. Data Mapping**")
-        st.write("Matches postal code regions with local environmental risk scores.")
+        st.markdown("**1. Data Lookup**")
+        st.write("Checks your selected area against preset risk levels for floods, fires, and wind.")
 
 with e2:
     with st.container(border=True):
-        st.markdown("**2. Priority Scoring**")
-        st.write("Ranks home improvements based on which local hazards are most severe.")
+        st.markdown("**2. Priority Ranking**")
+        st.write("Gives higher points to fixes addressing the most severe local risks.")
 
 with e3:
     with st.container(border=True):
-        st.markdown("**3. Action Output**")
-        st.write("Filters down to the top 5 highest-impact fixes for the homeowner.")
+        st.markdown("**3. Final Checklist**")
+        st.write("Shows the top 5 recommended projects to tackle first.")
 
-# Roadmap Section
 st.markdown("#### Future Improvements")
-st.write("- **Phase 1:** Add terrain and elevation data to improve local flood calculations.")
-st.write("- **Phase 2:** Integrate live weather alerts and seasonal risk updates.")
-st.write("- **Phase 3:** Include cost estimates and local contractor recommendations.")
+st.write("- Add real elevation data for better flood mapping.")
+st.write("- Connect live weather warning alerts.")
+st.write("- Include average repair costs and local contractor links.")
 
 st.caption("Built by Elijah Lloyd")
