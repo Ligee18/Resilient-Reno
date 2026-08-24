@@ -7,21 +7,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Minimal CSS to touch up dark mode contrast naturally
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #0e1117;
-    }
-    div[data-testid="stMetric"] {
-        background-color: #161b22;
-        border: 1px solid #30363d;
-        padding: 15px;
-        border-radius: 8px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # 2. App Title & Intro
 st.title("🛡️ ResilientReno")
 st.caption("An ounce of prevention is worth a pound of cure.")
@@ -169,7 +154,7 @@ if selected_location and selected_location != "-- Select City & Postal Code --":
             else:
                 title, desc = "Fix Recommendation", text
             
-            c1, c2 = st.columns([0.8, 0.2])
+            c1, c2 = st.columns([0.85, 0.15])
             with c1:
                 st.markdown(f"**⚡ {title.strip()}**")
                 st.write(desc.strip())
