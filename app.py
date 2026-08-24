@@ -2,51 +2,51 @@ import streamlit as st
 
 # 1. Page Configuration (Centered Grid Layout)
 st.set_page_config(
-    page_title="ResilientReno | Home Resilience Engine",
+    page_title="ResilientReno | Climate Risk Decision Engine",
     page_icon="🛡️",
     layout="wide"
 )
 
-# 2. Premium SaaS Theme Custom CSS
+# 2. Premium SaaS Theme Custom CSS (Linear / Vercel Dark Aesthetics)
 st.markdown("""
     <style>
     /* Dark Theme Base */
     .stAppViewContainer, .stApp {
-        background-color: #0b0f17 !important;
+        background-color: #090d16 !important;
         color: #f8fafc !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     /* Restrain Max-Width for Optimal Visual Balance & Line Length */
     .main .block-container {
-        max-width: 1080px !important;
-        padding-top: 2.5rem !important;
-        padding-bottom: 4rem !important;
+        max-width: 1040px !important;
+        padding-top: 3rem !important;
+        padding-bottom: 5rem !important;
         margin: 0 auto !important;
     }
     
-    /* Typography Overrides */
+    /* Typography Overrides & Contrast Hierarchy */
     h1, h2, h3, h4, h5, h6, p, label, span, div, li {
         color: #f8fafc !important;
     }
 
     /* Input Select Box Styling */
     div[data-baseweb="select"] > div {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
+        background-color: #111827 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         border-radius: 10px !important;
         color: #ffffff !important;
     }
     div[data-baseweb="select"] * {
-        color: #ffffff !important;
+        color: #f8fafc !important;
     }
 
     /* Popover Dropdown Container Background */
     [data-baseweb="popover"],
     [data-baseweb="popover"] > div,
     div[role="listbox"] {
-        background-color: #1e293b !important;
-        border: 1px solid #334155 !important;
+        background-color: #111827 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
 
     /* Dropdown Menu Text & Hover States */
@@ -54,65 +54,69 @@ st.markdown("""
     div[role="listbox"] li *,
     ul[data-baseweb="menu"] li,
     ul[data-baseweb="menu"] li * {
-        color: #e2e8f0 !important;
+        color: #cbd5e1 !important;
         background-color: transparent !important;
     }
     div[role="listbox"] li:hover,
     div[role="listbox"] li:hover * {
-        background-color: #334155 !important;
+        background-color: #1f2937 !important;
         color: #38bdf8 !important;
     }
 
-    /* Clean Hero Banner */
+    /* Refined Hero Banner */
     .hero-card {
-        background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-        border: 1px solid #334155;
+        background: linear-gradient(180deg, #111827 0%, #0d1322 100%);
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 16px;
         padding: 36px 40px;
-        margin-bottom: 24px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        margin-bottom: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
     .hero-title {
-        font-size: 2.4rem;
+        font-size: 2.2rem;
         font-weight: 800;
-        color: #38bdf8 !important;
+        color: #f8fafc !important;
         letter-spacing: -0.5px;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
     }
     .hero-subtitle {
         color: #94a3b8 !important;
-        font-size: 1.05rem;
+        font-size: 1rem;
         font-style: italic;
     }
 
     /* Info Card */
     .info-card {
-        background-color: #131c2e;
-        border: 1px solid #1e293b;
-        border-left: 4px solid #38bdf8;
+        background-color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-left: 3px solid #38bdf8;
         border-radius: 12px;
-        padding: 20px 24px;
-        margin-bottom: 28px;
+        padding: 24px 28px;
+        margin-bottom: 36px;
         line-height: 1.6;
-        color: #cbd5e1 !important;
+        color: #94a3b8 !important;
+        font-size: 0.95rem;
+    }
+    .info-card strong {
+        color: #f8fafc !important;
     }
 
     /* Expanders Clean Styling */
     .stExpander {
-        background-color: #131c2e !important;
-        border: 1px solid #1e293b !important;
+        background-color: #111827 !important;
+        border: 1px solid rgba(255, 255, 255, 0.07) !important;
         border-radius: 12px !important;
-        margin-bottom: 20px !important;
+        margin-bottom: 24px !important;
     }
     .stExpander summary {
-        color: #94a3b8 !important;
+        color: #cbd5e1 !important;
         font-weight: 600 !important;
     }
 
     /* Minimalist Risk Badges */
     .badge-card {
-        background: #131c2e;
-        border: 1px solid #1e293b;
+        background: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 12px;
         padding: 20px;
         text-align: center;
@@ -120,59 +124,160 @@ st.markdown("""
     }
     .badge-label {
         color: #94a3b8 !important;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         font-weight: 600;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
     .badge-pill {
         display: inline-block;
-        padding: 6px 18px;
+        padding: 4px 14px;
         border-radius: 20px;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.85rem;
     }
     .badge-high {
-        background-color: rgba(239, 68, 68, 0.15);
+        background-color: rgba(239, 68, 68, 0.12);
         color: #fca5a5 !important;
-        border: 1px solid rgba(239, 68, 68, 0.4);
+        border: 1px solid rgba(239, 68, 68, 0.3);
     }
     .badge-medium {
-        background-color: rgba(245, 158, 11, 0.15);
+        background-color: rgba(245, 158, 11, 0.12);
         color: #fde047 !important;
-        border: 1px solid rgba(245, 158, 11, 0.4);
+        border: 1px solid rgba(245, 158, 11, 0.3);
     }
     .badge-low {
-        background-color: rgba(16, 185, 129, 0.15);
+        background-color: rgba(16, 185, 129, 0.12);
         color: #6ee7b7 !important;
-        border: 1px solid rgba(16, 185, 129, 0.4);
+        border: 1px solid rgba(16, 185, 129, 0.3);
     }
 
-    /* Recommendation Cards */
+    /* Enhanced Recommendation Cards with Hover States */
     .rec-card {
-        background-color: #131c2e;
-        border: 1px solid #1e293b;
+        background-color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 12px;
-        padding: 20px 24px;
-        margin-bottom: 14px;
-        color: #e2e8f0 !important;
-        font-size: 1rem;
-        line-height: 1.6;
-        transition: border-color 0.2s ease;
+        padding: 22px 26px;
+        margin-bottom: 16px;
+        transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     }
     .rec-card:hover {
-        border-color: #38bdf8;
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.4);
+        background-color: #131d31;
     }
-    .rec-card strong {
+    .rec-header-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+    .rec-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #f8fafc !important;
+        letter-spacing: -0.2px;
+    }
+    .rec-desc {
+        color: #94a3b8 !important;
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+    .hazard-tag {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 3px 10px;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #1a2333;
         color: #38bdf8 !important;
+    }
+
+    /* Summary Bar */
+    .summary-bar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+        font-size: 0.85rem;
+        color: #94a3b8;
+    }
+    .summary-pill {
+        background: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-weight: 500;
+    }
+
+    /* Engineering Feature Cards */
+    .eng-card {
+        background-color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 12px;
+        padding: 24px;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .eng-number {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #38bdf8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+    }
+    .eng-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #f8fafc !important;
+        margin-bottom: 8px;
+    }
+    .eng-desc {
+        font-size: 0.88rem;
+        color: #94a3b8 !important;
+        line-height: 1.5;
+    }
+
+    /* Roadmap Timeline */
+    .roadmap-container {
+        background-color: #111827;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 12px;
+        padding: 24px 28px;
+        margin-top: 20px;
+    }
+    .roadmap-step {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .roadmap-step:last-child {
+        border-bottom: none;
+    }
+    .roadmap-bullet {
+        width: 8px;
+        height: 8px;
+        background-color: #38bdf8;
+        border-radius: 50%;
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+    }
+    .roadmap-text {
+        font-size: 0.9rem;
+        color: #cbd5e1;
+        font-weight: 500;
     }
 
     .footer-text {
         color: #64748b !important;
         font-size: 0.85rem;
         text-align: center;
-        margin-top: 40px;
+        margin-top: 48px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -194,7 +299,7 @@ with st.expander("👋 About the Creator"):
 # 5. Purpose Banner
 st.markdown("""
     <div class="info-card">
-        <strong style="color: #38bdf8;">💡 What is ResilientReno & Why Does It Matter?</strong><br>
+        <strong style="color: #f8fafc;">💡 What is ResilientReno & Why Does It Matter?</strong><br>
         Extreme weather like severe basement flooding, high windstorms, and wildfire smoke is hitting Canadian homes more often, causing thousands of dollars in unexpected damage. Most home improvement advice online is way too broad. <strong>ResilientReno</strong> takes local weather hazard data across Canadian towns and turns it into a targeted, practical home protection plan so homeowners can spend their budget on repairs that actually matter for their area.
     </div>
 """, unsafe_allow_html=True)
@@ -291,19 +396,22 @@ def render_badge(label, level):
     """
 
 # 7. Step 1: Location Input
-st.markdown("### 📍 Step 1: Select Your Location")
+st.markdown("<p style='font-size: 0.85rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Step 1</p>", unsafe_allow_html=True)
+st.markdown("<h3 style='font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;'>Select Location</h3>", unsafe_allow_html=True)
 selected_location = st.selectbox(
     "Choose your city and area postal code:",
     options=["-- Select City & Postal Code --"] + list(LOCATION_RISK_DB.keys()),
-    key="location_selector"
+    key="location_selector",
+    label_visibility="collapsed"
 )
 
 # 8. Dynamic Step 2 & 3 Output
 if selected_location and selected_location != "-- Select City & Postal Code --":
     data = LOCATION_RISK_DB[selected_location]
     
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### 📊 Step 2: Local Risk Profile")
+    st.markdown("<div style='margin-top: 36px;'></div>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 0.85rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Step 2</p>", unsafe_allow_html=True)
+    st.markdown("<h3 style='font-size: 1.25rem; font-weight: 700; margin-bottom: 16px;'>Local Weather Risk Profile</h3>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -313,10 +421,12 @@ if selected_location and selected_location != "-- Select City & Postal Code --":
     with col3:
         st.markdown(render_badge("Wind Hazard", data["wind"]), unsafe_allow_html=True)
     
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("### 🛠️ Step 3: Priority Action Plan")
+    st.markdown("<div style='margin-top: 36px;'></div>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 0.85rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Step 3</p>", unsafe_allow_html=True)
+    st.markdown("<h3 style='font-size: 1.25rem; font-weight: 700; margin-bottom: 4px;'>Priority Action Plan</h3>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;'>Recommended improvements ranked by your property's local climate-risk profile.</p>", unsafe_allow_html=True)
     
-    # Logic for weighted priority scoring
+    # Logic for weighted priority scoring & structured parsing
     priority_map = {"High": 3, "Medium": 2, "Low": 1}
     scored_actions = []
     
@@ -324,35 +434,107 @@ if selected_location and selected_location != "-- Select City & Postal Code --":
         risk_level = data[hazard]
         weight = priority_map[risk_level]
         for item in TIERED_RETROFIT_DB[hazard][risk_level]:
-            scored_actions.append((weight, item))
+            scored_actions.append((weight, hazard, item))
             
     scored_actions.sort(key=lambda x: x[0], reverse=True)
-    top_5_actions = [item[1] for item in scored_actions[:5]]
+    top_5_actions = scored_actions[:5]
     
-    for rec in top_5_actions:
-        st.markdown(f'<div class="rec-card">⚡ {rec}</div>', unsafe_allow_html=True)
+    # Recommendation Summary Bar
+    high_count = sum(1 for w, h, i in top_5_actions if w == 3)
+    flood_count = sum(1 for w, h, i in top_5_actions if h == "flood")
+    wind_count = sum(1 for w, h, i in top_5_actions if h == "wind")
+    wildfire_count = sum(1 for w, h, i in top_5_actions if h == "wildfire")
+    
+    st.markdown(f"""
+        <div class="summary-bar">
+            <div class="summary-pill">⚡ 5 recommended actions</div>
+            <div class="summary-pill">{high_count} high priority</div>
+            <div class="summary-pill">{max(flood_count, wind_count, wildfire_count)} primary hazard category</div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Render structured recommendation cards
+    for weight, hazard_type, rec in top_5_actions:
+        # Split title and description from the stored string format "<strong>Title:</strong> Description"
+        clean_rec = rec.replace("<strong>", "").replace("</strong>", "")
+        if ":" in clean_rec:
+            parts = clean_rec.split(":", 1)
+            title = parts[0].strip()
+            desc = parts[1].strip()
+        else:
+            title = "Property Defense Action"
+            desc = clean_rec
+            
+        badge_label = f"{hazard_type.upper()} PROTECTION"
+        
+        st.markdown(f"""
+            <div class="rec-card">
+                <div class="rec-header-row">
+                    <span class="rec-title">⚡ {title}</span>
+                    <span class="hazard-tag">{badge_label}</span>
+                </div>
+                <div class="rec-desc">{desc}</div>
+            </div>
+        """, unsafe_allow_html=True)
 
 else:
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: 24px;'></div>", unsafe_allow_html=True)
     st.info("👈 Select a location from the dropdown above to view risk levels and recommended home fixes.")
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<div style='margin-top: 48px;'></div>", unsafe_allow_html=True)
 
-# 9. Technical Architecture Expander
-with st.expander("⚙️ System Architecture & Engineering Methodology"):
+# 9. Redesigned Engineering Overview & Architecture Section
+st.markdown("<p style='font-size: 0.85rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;'>Engineering Overview</p>", unsafe_allow_html=True)
+st.markdown("<h3 style='font-size: 1.35rem; font-weight: 700; margin-bottom: 6px;'>How ResilientReno Works</h3>", unsafe_allow_html=True)
+st.markdown("<p style='color: #94a3b8; font-size: 0.92rem; margin-bottom: 24px;'>Turning regional climate data into property-level decisions.</p>", unsafe_allow_html=True)
+
+eng_col1, eng_col2, eng_col3 = st.columns(3)
+
+with eng_col1:
     st.markdown("""
-    **Problem Context:**
-    Climate risk data is publicly available, but it is rarely actionable for individual property owners. Homeowners frequently face information overload, making it difficult to allocate renovation capital efficiently. ResilientReno was engineered to bridge the gap between raw regional risk indicators and personalized decision-making.
+        <div class="eng-card">
+            <div class="eng-number">01 — Decision Support</div>
+            <div class="eng-title">Multi-Variable Analysis</div>
+            <div class="eng-desc">Converts complex climate-risk datasets into clear, localized recommendations without manual research friction.</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    **Core Engineering Implementation:**
-    The engine relies on three primary systems engineering concepts:
+with eng_col2:
+    st.markdown("""
+        <div class="eng-card">
+            <div class="eng-number">02 — Priority Engine</div>
+            <div class="eng-title">Severity Weighting</div>
+            <div class="eng-desc">Ranks mitigation strategies dynamically according to local hazard severity tiers and maximum risk mitigation value.</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    * **Decision-Support Architecture:** Converts multi-variable climate data into localized dynamic recommendations, eliminating manual analysis for the user.
-    * **Multi-Criteria Priority Logic:** Uses a weighted scoring algorithm to rank mitigation strategies based on local severity tiers (High, Medium, Low), ensuring high-impact interventions take precedence.
-    * **Information Streamlining:** Filters complex hazard metrics down to top actionable outputs, reducing process friction and guiding efficient resource allocation.
+with eng_col3:
+    st.markdown("""
+        <div class="eng-card">
+            <div class="eng-number">03 — Streamlining</div>
+            <div class="eng-title">Actionable Outputs</div>
+            <div class="eng-desc">Filters dense environmental reports down to the top high-impact interventions tailored for home capital allocation.</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    **Technical Roadmap:**
-    Future development will focus on integrating geospatial APIs (such as OpenStreetMap and terrain elevation datasets) to incorporate micro-location variables like property elevation, watershed proximity, and local vegetation density into the scoring matrix.
-    """)
+st.markdown("<div style='margin-top: 32px;'></div>", unsafe_allow_html=True)
+st.markdown("<h4 style='font-size: 1.05rem; font-weight: 700; margin-bottom: 12px;'>Technical Roadmap & Future Scale</h4>", unsafe_allow_html=True)
+
+st.markdown("""
+    <div class="roadmap-container">
+        <div class="roadmap-step">
+            <div class="roadmap-bullet"></div>
+            <div class="roadmap-text"><b>Phase 1:</b> Integration of OpenStreetMap & terrain elevation datasets for micro-location topography mapping.</div>
+        </div>
+        <div class="roadmap-step">
+            <div class="roadmap-bullet"></div>
+            <div class="roadmap-text"><b>Phase 2:</b> Watershed proximity and local hydrological flow-path calculations for basement flood modeling.</div>
+        </div>
+        <div class="roadmap-step">
+            <div class="roadmap-bullet"></div>
+            <div class="roadmap-text"><b>Phase 3:</b> Vegetation density and canopy coverage metrics for localized wildfire ember exposure indexing.</div>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
 st.markdown('<div class="footer-text">ResilientReno | Built by Elijah Lloyd</div>', unsafe_allow_html=True)
