@@ -1,13 +1,13 @@
 import streamlit as st
 
-# 1. Page Configuration
+# 1. Page Configuration (Set to Wide Layout)
 st.set_page_config(
     page_title="ResilientReno | Home Resilience Engine",
     page_icon="🛡️",
-    layout="centered"
+    layout="wide"
 )
 
-# 2. Custom CSS & High-Contrast Visual Enhancement
+# 2. Custom CSS & Full-Width Visual Enhancement
 st.markdown("""
     <style>
     /* Full Dark Background Base */
@@ -15,25 +15,32 @@ st.markdown("""
         background-color: #0b0f19 !important;
         color: #ffffff !important;
     }
+
+    /* Expand Max Page Width and Add Breathable Margins */
+    .main .block-container {
+        max-width: 92% !important;
+        padding-top: 2rem !important;
+        padding-bottom: 3rem !important;
+    }
     
     /* Global Typography */
     h1, h2, h3, h4, h5, h6, p, label, span, div, li {
         color: #f8fafc !important;
     }
 
-    /* FIX 1: Selected Text in Main Input Box */
+    /* FIX: Selected Text in Main Input Box */
     div[data-baseweb="select"] * {
         color: #0f172a !important;
     }
 
-    /* FIX 2: Popover Dropdown Container Background */
+    /* FIX: Popover Dropdown Container Background */
     [data-baseweb="popover"],
     [data-baseweb="popover"] > div,
     div[role="listbox"] {
         background-color: #ffffff !important;
     }
 
-    /* FIX 3: Force Dropdown Menu Text Dark Slate Blue */
+    /* FIX: Force Dropdown Menu Text Dark Slate Blue */
     div[role="listbox"] li,
     div[role="listbox"] li *,
     div[role="listbox"] span,
@@ -45,7 +52,7 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* FIX 4: Hover & Active Selection Highlight */
+    /* FIX: Hover & Active Selection Highlight */
     div[role="listbox"] li:hover,
     div[role="listbox"] li:hover *,
     div[role="listbox"] li[aria-selected="true"],
@@ -57,7 +64,7 @@ st.markdown("""
     /* Header Container */
     .main-header {
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        padding: 30px;
+        padding: 32px 40px;
         border-radius: 16px;
         color: #ffffff !important;
         margin-bottom: 24px;
@@ -66,43 +73,27 @@ st.markdown("""
     }
     .main-header h1 {
         color: #38bdf8 !important;
-        font-size: 2.3rem;
-        margin-bottom: 6px;
+        font-size: 2.6rem;
+        margin-bottom: 8px;
         font-weight: 800;
         letter-spacing: -0.5px;
     }
     .slogan-tag {
         font-style: italic;
         color: #fbbf24 !important;
-        font-size: 1.05rem;
+        font-size: 1.1rem;
         font-weight: 600;
-    }
-    
-    /* About Me Box */
-    .about-me-box {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border: 1px solid #38bdf8;
-        padding: 20px 24px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        color: #f8fafc !important;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-    }
-    .about-me-box strong {
-        color: #38bdf8 !important;
     }
 
     /* Intro Banner Box */
     .info-banner {
         background-color: #1e293b;
-        border-left: 4px solid #38bdf8;
-        padding: 18px 22px;
+        border-left: 5px solid #38bdf8;
+        padding: 22px 28px;
         border-radius: 12px;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
         color: #ffffff !important;
-        font-size: 0.95rem;
+        font-size: 1rem;
         line-height: 1.6;
         border-top: 1px solid #334155;
         border-right: 1px solid #334155;
@@ -114,12 +105,17 @@ st.markdown("""
         background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
         border: 1px solid #334155;
         border-left: 5px solid #38bdf8;
-        padding: 20px 24px;
+        padding: 22px 26px;
         border-radius: 12px;
-        margin-bottom: 16px;
-        font-size: 0.98rem;
+        margin-bottom: 18px;
+        font-size: 1.02rem;
         color: #ffffff !important;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .rec-card:hover {
+        transform: translateY(-2px);
+        border-color: #38bdf8;
     }
     .rec-card strong {
         color: #38bdf8 !important;
@@ -128,31 +124,31 @@ st.markdown("""
     /* Risk Badges */
     .badge {
         display: inline-block;
-        padding: 8px 18px;
+        padding: 10px 24px;
         border-radius: 20px;
         font-weight: 800;
-        font-size: 0.95rem;
+        font-size: 1.05rem;
         text-align: center;
-        margin-top: 6px;
+        margin-top: 8px;
         letter-spacing: 0.5px;
     }
     .badge-high {
         background-color: rgba(239, 68, 68, 0.2);
         color: #fca5a5 !important;
         border: 1px solid #ef4444;
-        box-shadow: 0 0 10px rgba(239, 68, 68, 0.2);
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
     }
     .badge-medium {
         background-color: rgba(245, 158, 11, 0.2);
         color: #fde047 !important;
         border: 1px solid #f59e0b;
-        box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
     }
     .badge-low {
         background-color: rgba(16, 185, 129, 0.2);
         color: #6ee7b7 !important;
         border: 1px solid #10b981;
-        box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
     }
 
     /* Expander & Footer Text Contrast Fixes */
@@ -160,6 +156,7 @@ st.markdown("""
         background-color: #0f172a !important;
         border: 1px solid #334155 !important;
         border-radius: 12px !important;
+        margin-bottom: 16px !important;
     }
     .stExpander p, .stExpander span, .stExpander li, .stExpander div {
         color: #ffffff !important;
@@ -169,9 +166,9 @@ st.markdown("""
     }
     .footer-text {
         color: #94a3b8 !important;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         text-align: center;
-        margin-top: 20px;
+        margin-top: 30px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -184,13 +181,11 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 4. About Me Section
-st.markdown("""
-    <div class="about-me-box">
-        👋 <strong>About Me:</strong><br>
-        Hi! My name is <strong>Elijah Lloyd</strong>. I'm a Grade 12 student passionate about software engineering, data analytics, and solving complex real-world problems. I built <strong>ResilientReno</strong> out of curiosity to explore how data-driven decision tools can take complex environmental risk data and turn it into clear, practical solutions for real people.
-    </div>
-""", unsafe_allow_html=True)
+# 4. Collapsible About Me Dropdown
+with st.expander("👋 About the Creator (Elijah Lloyd)"):
+    st.markdown("""
+    Hi! My name is **Elijah Lloyd**. I'm a Grade 12 student passionate about software engineering, data analytics, and solving complex real-world problems. I built **ResilientReno** out of curiosity to explore how data-driven decision tools can take complex environmental risk data and turn it into clear, practical solutions for real people.
+    """)
 
 # 5. Top Intro Section
 st.markdown("""
@@ -286,8 +281,8 @@ TIERED_RETROFIT_DB = {
 def get_badge_html(label, level):
     css_class = f"badge-{level.lower()}"
     return f"""
-    <div style="text-align: center;">
-        <span style="color: #ffffff; font-size: 0.85rem;">{label}</span><br>
+    <div style="text-align: center; padding: 10px;">
+        <span style="color: #ffffff; font-size: 0.95rem; font-weight: 600;">{label}</span><br>
         <span class="badge {css_class}">{level} Risk</span>
     </div>
     """
